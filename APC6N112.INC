@@ -1,0 +1,3 @@
+  MODULE('APC6N112.CLW')
+CetakMutasiKartuFIFOHarian PROCEDURE
+  END

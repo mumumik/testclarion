@@ -1,0 +1,3 @@
+Start synchronizing procedure Trig_BrowseBatalRawatJalan
+End synchronizing procedure Trig_BrowseBatalRawatJalan
+

@@ -1,0 +1,3 @@
+  MODULE('APC6N128.CLW')
+PrintBPB2              PROCEDURE
+  END

@@ -1,0 +1,3 @@
+  MODULE('APC6N092.CLW')
+ProsesKonvertBarangMK  PROCEDURE
+  END

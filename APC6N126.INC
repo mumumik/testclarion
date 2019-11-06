@@ -1,0 +1,3 @@
+  MODULE('APC6N126.CLW')
+PrintTransRawatInap11  PROCEDURE
+  END

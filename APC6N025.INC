@@ -1,0 +1,7 @@
+  MODULE('APC6N025.CLW')
+ProsesKeApotikLain     PROCEDURE
+ProsesKeSumedang       PROCEDURE
+ProsesDrOutTempKeFIFOUT PROCEDURE
+ProsesFIFOINSBBK1      PROCEDURE
+WindowAllTransPerAptk  PROCEDURE
+  END

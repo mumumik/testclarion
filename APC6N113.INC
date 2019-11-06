@@ -1,0 +1,3 @@
+  MODULE('APC6N113.CLW')
+PrintSBBKRuangan       PROCEDURE
+  END

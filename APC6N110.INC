@@ -1,0 +1,3 @@
+  MODULE('APC6N110.CLW')
+PrintSelisihFIFOStokAptk PROCEDURE
+  END

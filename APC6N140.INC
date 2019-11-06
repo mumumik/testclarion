@@ -1,0 +1,3 @@
+  MODULE('APC6N140.CLW')
+PrintLapReturKeGudang  PROCEDURE
+  END

@@ -1,0 +1,3 @@
+  MODULE('APC6N139.CLW')
+PrintLapKeluarKeInstalasi PROCEDURE
+  END
