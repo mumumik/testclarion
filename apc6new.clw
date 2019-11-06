@@ -230,6 +230,7 @@ glo:totalresepranap4 SHORT
 glo:totalresepranap5 SHORT
 glo:ktt              BYTE
 glo:nota_retur       STRING(20)
+glo:tuslah           SHORT
 SilentRunning        BYTE(0)                               ! Set true when application is running in 'silent mode'
 
 APEPREH              FILE,DRIVER('SQLAnywhere'),NAME('dba.APEPREH'),PRE(APE3),CREATE,BINDABLE,THREAD

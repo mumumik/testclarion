@@ -2239,21 +2239,21 @@ Looped BYTE
                   !update penambahan tuslah 1500 (3 Desember 2018)
                   !Update perubahan margin pasien umum menjadi 1.25 (31 Desember 2018)
                   !Update penambahan diskon dari gudang saat penjualan (31 Desember 2018)
-                  APD:Total=((((GSGD:Harga_Beli-(GSGD:Discount/100*GSGD:Harga_Beli))*1.25)*1.1)*APD:Jumlah)+1500
+                  APD:Total=((((GSGD:Harga_Beli-(GSGD:Discount/100*GSGD:Harga_Beli))*1.25)*1.1)*APD:Jumlah)+glo:tuslah
                   APD:total_dtg=0
                   ?APD:total_dtg{PROP:disable}=1
                elsif status=3 then
                   if sub(APD:Kode_brg,1,1)='B'
                       !update penambahan tuslah 1500 (3 Desember 2018)
                       !Update penambahan diskon dari gudang saat penjualan (31 Desember 2018)
-                      APD:Total=((((GSGD:Harga_Beli-(GSGD:Discount/100*GSGD:Harga_Beli))*1.215)*1.1)*APD:Jumlah)+1500
+                      APD:Total=((((GSGD:Harga_Beli-(GSGD:Discount/100*GSGD:Harga_Beli))*1.215)*1.1)*APD:Jumlah)+glo:tuslah
                       APD:total_dtg=APD:Total
                       ?APD:total_dtg{PROP:disable}=1
                   else
                       !update penambahan tuslah 1500 (3 Desember 2018)
                       !Update penambahan diskon dari gudang saat penjualan (31 Desember 2018)
                       !Update perubahan margin pasien kontraktor non bpjs menjadi 1.25 (13 Maret 2019)
-                      APD:Total=((((GSGD:Harga_Beli-(GSGD:Discount/100*GSGD:Harga_Beli))*1.25)*1.1)*APD:Jumlah)+1500
+                      APD:Total=((((GSGD:Harga_Beli-(GSGD:Discount/100*GSGD:Harga_Beli))*1.25)*1.1)*APD:Jumlah)+glo:tuslah
                       APD:total_dtg=APD:Total
                   end
                end

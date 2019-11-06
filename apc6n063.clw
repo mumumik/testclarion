@@ -324,125 +324,121 @@ Looped BYTE
          loc::err = 1
          loc::message = 1
       ELSE
-              glo:nota_retur=clip(APH:NoNota)
-              JHB:NOMOR=clip(APH:NoNota)
-              if access:jhbilling.fetch(JHB:KNOMOR)=level:benign
-                  if JHB:TUTUP<>1 then
-                      gl:nik          =APH:NIP
-                      gl:kontrak      =APH:Kontrak
-                      gl:nota         =APH:NoNota
-                      gl:cara_bayar   =APH:cara_bayar
-                      Glo::no_mr = APH:Nomor_mr
-                      IF APH:Nomor_mr = 9999999999 or APH:Nomor_mr = 0
-                          APR:N0_tran = glo::no_nota
-                          GET(ApReLuar,APR:by_transaksi)
-                          IF ERRORCODE()
-                              loc::err = 1
-                              loc::message = 5
-                          ELSE
-                              Glo:lap = '1'   !--Untuk ambil data dari apreluar--
-                          END
+         glo:nota_retur=clip(APH:NoNota)
+         JHB:NOMOR=clip(APH:NoNota)
+         if access:jhbilling.fetch(JHB:KNOMOR)=level:benign
+              if JHB:TUTUP<>1 then
+                  gl:nik          =APH:NIP
+                  gl:kontrak      =APH:Kontrak
+                  gl:nota         =APH:NoNota
+                  gl:cara_bayar   =APH:cara_bayar
+                  Glo::no_mr = APH:Nomor_mr
+                  IF APH:Nomor_mr = 9999999999 or APH:Nomor_mr = 0
+                      APR:N0_tran = glo::no_nota
+                      GET(ApReLuar,APR:by_transaksi)
+                      IF ERRORCODE()
+                          loc::err = 1
+                          loc::message = 5
                       ELSE
-                          JPas:Nomor_mr = APH:Nomor_mr
-                          GET(JPasien,JPas:KeyNomorMr)
-                          IF ERRORCODE()
-                              loc::err = 1
-                              loc::message = 5
-                          ELSE
-                             Glo:lap= '2' !---untuk ambil data dari jPasien----
-                          END
+                          Glo:lap = '1'   !--Untuk ambil data dari apreluar--
                       END
-              
-                      IF loc::err = 0
-                          APKL:N0_tran = glo::no_nota
-                          GET(Apklutmp,APKL:key_nota)
-                          IF NOT ERRORCODE()
-                              loc::err = 1
-                              loc::message = 2
-                          ELSE
-                          !---- masukkan data ke apklutmp dari apdtrans---
-      
-                              APH:N0_tran = glo::no_nota
-                              GET(APHTRANS,APH:by_transaksi)
-                              IF ERRORCODE()
-                                  loc::err = 1
-                                  loc::message = 3
-                              ELSE
-                              IF APH:Bayar = 0
-                                  !!loc::err = 1
-                                  !!loc::message = 4
-                                  !ELSE
-                                  loc::pers_disc = 0
-      
-                                  apdtrans{prop:sql}='select * from dba.apdtrans where n0_tran='''&APH:N0_tran&''' and camp=0'
-                                  LOOP
-                                  IF Access:APDTRANS.Next()<>level:benign then break.
-                                  IF APD:Kode_brg = '_Disc'
-                                      loc::pers_disc = APD:Total / (APD:Total+APH:Biaya)
-                                  BREAK
-                                  END
-                              END
-      
-      
-      
-      
-                          apdtrans{prop:sql}='select * from dba.apdtrans where n0_tran='''&APH:N0_tran&''' and camp=0'
-                          LOOP
-                              IF Access:APDTRANS.Next()<>level:benign then break.
-                              IF APD:Jumlah <> 0 AND APD:Kode_brg <> '_Campur' AND APD:Kode_brg <> '_Disc'
-                                  APKL:N0_tran = glo::no_nota
-                                  APKL:Kode_brg = APD:Kode_brg
-                                  GET(APklutmp,APKL:key_nota_brg)
-                                  IF ERRORCODE()
-                                      APKL:N0_tran   = glo::no_nota
-                                      APKL:Kode_brg  = APD:Kode_brg
-                                      APKL:Jumlah    = APD:Jumlah
-                                      APKL:Harga_Dasar = ( 1-loc::pers_disc ) * APD:Total / APD:Jumlah
-                                      APKL:Harga_Dasar_benar = APD:Harga_Dasar
-                                      Access:APklutmp.Insert()
-                                  ELSE
-                                      APKL:Jumlah = APKL:Jumlah + APD:Jumlah
-      
-                                      IF APKL:Harga_Dasar > ( 1-loc::pers_disc ) * APD:Total / APD:Jumlah
-                                          APKL:Harga_Dasar =  ( 1-loc::pers_disc ) * APD:Total / APD:Jumlah
-                                      END
-                                      IF APKL:Harga_Dasar_benar > APD:Harga_Dasar
-                                          APKL:Harga_Dasar_benar =  APD:Harga_Dasar
-                                      END
-      
-                                      Access:APklutmp.Update()
-                                  END
-                                  APP1:N0_tran = glo::no_nota
-                                  APP1:Kode_brg = APD:Kode_brg
-                                  GET(APpotkem,APP1:key_nota_brg)
-                                  IF NOT ERRORCODE()
-                                      APKL:N0_tran = glo::no_nota
-                                      APKL:Kode_brg = APD:Kode_brg
-                                      GET(APklutmp,APKL:key_nota_brg)
-                                      APKL:Jumlah = APKL:Jumlah - APP1:Jumlah
-                                      Access:APklutmp.Update()
-                                  END
-                              END
-                              
-                          END
-                          ?OKButton{PROP:DISABLE}=0
-                          ?glo::no_nota{PROP:DISABLE}=1
-                          ?Button4{PROP:DISABLE}=1
-                          ?Button5{PROP:DISABLE}=1
-                        END
+                  ELSE
+                      JPas:Nomor_mr = APH:Nomor_mr
+                      GET(JPasien,JPas:KeyNomorMr)
+                      IF ERRORCODE()
+                          loc::err = 1
+                          loc::message = 5
+                      ELSE
+                          Glo:lap= '2' !---untuk ambil data dari jPasien----
                       END
                   END
-              END
+              
+                  IF loc::err = 0
+                      !APKL:N0_tran = glo::no_nota
+                      !GET(Apklutmp,APKL:key_nota)
+                      !IF NOT ERRORCODE()
+                      !    loc::err = 1
+                      !    loc::message = 2
+                      !ELSE
+                      !---- masukkan data ke apklutmp dari apdtrans---
+      
+                          !APH:N0_tran = glo::no_nota
+                          !GET(APHTRANS,APH:by_transaksi)
+                          !IF ERRORCODE()
+                          !    loc::err = 1
+                          !    loc::message = 3
+                          !ELSE
+                               !IF APH:Bayar = 0
+                                  !!loc::err = 1
+                                  !!loc::message = 4
+                               !ELSE
+                                   !loc::pers_disc = 0
+      
+                                   !apdtrans{prop:sql}='select * from dba.apdtrans where n0_tran='''&APH:N0_tran&''' and camp=0'
+                                   !LOOP
+                                   !    IF Access:APDTRANS.Next()<>level:benign then break.
+                                   !        IF APD:Kode_brg = '_Disc'
+                                   !            loc::pers_disc = APD:Total / (APD:Total+APH:Biaya)
+                                   !            BREAK
+                                   !END
+                               !END
+      
+                               !apdtrans{prop:sql}='select * from dba.apdtrans where n0_tran='''&APH:N0_tran&''' and camp=0'
+                               !LOOP
+                                  !IF Access:APDTRANS.Next()<>level:benign then break.
+                                  !IF APD:Jumlah <> 0 AND APD:Kode_brg <> '_Campur' AND APD:Kode_brg <> '_Disc'
+                                      !APKL:N0_tran = glo::no_nota
+                                      !APKL:Kode_brg = APD:Kode_brg
+                                      !GET(APklutmp,APKL:key_nota_brg)
+                                      !IF ERRORCODE()
+                                          !APKL:N0_tran   = glo::no_nota
+                                          !APKL:Kode_brg  = APD:Kode_brg
+                                          !APKL:Jumlah    = APD:Jumlah
+                                          !APKL:Harga_Dasar = ( 1-loc::pers_disc ) * APD:Total / APD:Jumlah
+                                          !APKL:Harga_Dasar_benar = APD:Harga_Dasar
+                                          !Access:APklutmp.Insert()
+                                      !ELSE
+                                          !APKL:Jumlah = APKL:Jumlah + APD:Jumlah
+      
+                                          !IF APKL:Harga_Dasar > ( 1-loc::pers_disc ) * APD:Total / APD:Jumlah
+                                              !APKL:Harga_Dasar =  ( 1-loc::pers_disc ) * APD:Total / APD:Jumlah
+                                          !END
+                                          !IF APKL:Harga_Dasar_benar > APD:Harga_Dasar
+                                              !APKL:Harga_Dasar_benar =  APD:Harga_Dasar
+                                          !END
+      
+                                          !Access:APklutmp.Update()
+                                       !END
+                                       !APP1:N0_tran = glo::no_nota
+                                       !APP1:Kode_brg = APD:Kode_brg
+                                       !GET(APpotkem,APP1:key_nota_brg)
+                                       !IF NOT ERRORCODE()
+                                          !APKL:N0_tran = glo::no_nota
+                                          !APKL:Kode_brg = APD:Kode_brg
+                                          !GET(APklutmp,APKL:key_nota_brg)
+                                          !APKL:Jumlah = APKL:Jumlah - APP1:Jumlah
+                                          !Access:APklutmp.Update()
+                                       !END
+                                  !END
+                               !END
+                               ?OKButton{PROP:DISABLE}=0
+                               ?glo::no_nota{PROP:DISABLE}=1
+                               ?Button4{PROP:DISABLE}=1
+                               ?Button5{PROP:DISABLE}=1
+                          !END
+                      !END
+                  END
+              !END
               else
                  message('Nota Sudah Ditutup !')
               end
-              else
-                 message('Nota Tidak Ketemu !')
-              end
+         else
+              message('Nota Tidak Ketemu !')
+         end
       END
       IF loc::err = 1
-          CASE loc::message
-          OF 1
+         CASE loc::message
+         OF 1
               MESSAGE('Nomor Transaksi tidak ditemukan')
           OF 2
               MESSAGE ('Nomor Transaksi tersebut sedang dipakai')

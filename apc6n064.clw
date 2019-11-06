@@ -404,28 +404,28 @@ Looped BYTE
     END
     CASE ACCEPTED()
     OF ?APD:Kode_brg
-      if vl_sudah=0 then
-         APKL:Kode_brg=APD:Kode_brg
-         APKL:N0_tran=glo::no_nota
-         GET(APklutmp,APKL:key_nota_brg)
-         IF ERRORCODE() = 35
-             MESSAGE('Barang tidak ada Dalam daftar Pengeluaran')
-             ?APD:Jumlah{PROP:DISABLE}=1
-             CLEAR (APD:Kode_brg )
-             CLEAR (GBAR:Nama_Brg)
-             DISPLAY
-             SELECT(?APD:Kode_brg)
-         ELSE
-             ?APD:Jumlah{PROP:DISABLE}=0
-             APD:Jumlah=0
-             APD:Total=0
-             APD:Harga_Dasar=0
-             APD:Diskon=0
-             loc::total=0
-             loc::diskon_pct=0
-             display
-         END
-      end
+      !if vl_sudah=0 then
+      !   APKL:Kode_brg=APD:Kode_brg
+      !   APKL:N0_tran=glo::no_nota
+      !   GET(APklutmp,APKL:key_nota_brg)
+      !   IF ERRORCODE() = 35
+      !       MESSAGE('Barang tidak ada Dalam daftar Pengeluaran')
+      !       ?APD:Jumlah{PROP:DISABLE}=1
+      !       CLEAR (APD:Kode_brg )
+      !       CLEAR (GBAR:Nama_Brg)
+      !       DISPLAY
+      !       SELECT(?APD:Kode_brg)
+      !   ELSE
+      !       ?APD:Jumlah{PROP:DISABLE}=0
+      !       APD:Jumlah=0
+      !       APD:Total=0
+      !       APD:Harga_Dasar=0
+      !       APD:Diskon=0
+      !       loc::total=0
+      !       loc::diskon_pct=0
+      !       display
+      !   END
+      !end
     OF ?APD:Jumlah
       if vl_sudah=0 then
          IF APD:Jumlah = 0
@@ -1586,19 +1586,19 @@ Looped BYTE
       !!!!Get(Ano_pakai,ANOp:key_isi)
       !!!!DELETE(ANo_Pakai)
       !!
-      apklutmp{prop:sql}='delete from dba.apklutmp where N0_tran='''&glo::no_nota&''''
+      !apklutmp{prop:sql}='delete from dba.apklutmp where N0_tran='''&glo::no_nota&''''
     OF ?Cancel
-      IF SELF.REQUEST=1
+      !IF SELF.REQUEST=1
          !DO BATAL_D_UTAMA
-      END
+      !END
       
-      SET(APklutmp)
-      APKL:N0_tran = glo::no_nota
-      SET(APKL:key_nota,APKL:key_nota)
-      LOOP
-          IF Access:APklutmp.Next()<>LEVEL:BENIGN OR APKL:N0_tran <> glo::no_nota THEN BREAK.
-          DELETE(APklutmp)
-      END
+      !SET(APklutmp)
+      !APKL:N0_tran = glo::no_nota
+      !SET(APKL:key_nota,APKL:key_nota)
+      !LOOP
+      !    IF Access:APklutmp.Next()<>LEVEL:BENIGN OR APKL:N0_tran <> glo::no_nota THEN BREAK.
+      !    DELETE(APklutmp)
+      !END
     END
   ReturnValue = PARENT.TakeAccepted()
     CASE ACCEPTED()

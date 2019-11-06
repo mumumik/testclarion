@@ -114,7 +114,7 @@ window               WINDOW,AT(,,204,94),FONT('MS Sans Serif',8,COLOR:Black,FONT
                        PANEL,AT(8,6,191,83),BEVEL(-2,1)
                        STRING('Instalasi Farmasi'),AT(43,18,126,19),USE(?String2),CENTER,FONT('Arial',12,,FONT:bold+FONT:italic)
                        PANEL,AT(12,41,182,8),BEVEL(-1,1,09H)
-                       STRING('Update : 14 Maret 2019'),AT(14,63,182,10),USE(?String1:2),CENTER,FONT('Arial',11,,FONT:bold+FONT:italic)
+                       STRING('Update : 16 September 2019'),AT(14,63,182,10),USE(?String1:2),CENTER,FONT('Arial',11,,FONT:bold+FONT:italic)
                      END
 
 ThisWindow           CLASS(WindowManager)
@@ -232,7 +232,7 @@ findwindowname       STRING(20)                            !
 SplashProcedureThread LONG
 DisplayDayString STRING('Sunday   Monday   Tuesday  WednesdayThursday Friday   Saturday ')
 DisplayDayText   STRING(9),DIM(7),OVER(DisplayDayString)
-?AppFrame            APPLICATION('Gleor.Hospital - Apotik'),AT(,,578,582),ICON('APOTIK.ICO'),ALRT(F10Key),ALRT(F9Key),ALRT(EnterKey),STATUS(-1,80,120,45),WALLPAPER('BackgroundSA.jpg'),CENTERED,SYSTEM,MAX,MAXIMIZE,RESIZE,IMM
+?AppFrame            APPLICATION('Gleor.Hospital - Apotik'),AT(,,578,588),ICON('APOTIK.ICO'),ALRT(F10Key),ALRT(F9Key),ALRT(EnterKey),STATUS(-1,80,120,45),WALLPAPER('BackgroundSA.jpg'),CENTERED,SYSTEM,MAX,MAXIMIZE,RESIZE,IMM
                        MENUBAR
                          MENU('&File'),USE(?FileMenu)
                            ITEM('&Ganti Password'),USE(?FileGantiPassword)
@@ -1193,6 +1193,11 @@ Looped BYTE
       !   unhide(?HelpStokOpnameBaru2)
       !end
       Glo::kode_apotik=GL_entryapotik
+      if Glo::kode_apotik='FM01' or Glo::kode_apotik='fm01'
+          glo:tuslah = 1500
+      else
+          glo:tuslah = 0
+      end
       display
       !message(glo::kode_apotik)
       !
@@ -1210,7 +1215,7 @@ Looped BYTE
       !    unhide(?TransaksiPenjualanPasienRawatInapBPJS)
       !    unhide(?TransaksiPenjualanPasienBPJSRawatJalan)
       !end
-      ?appframe{prop:text}='APOTIK VERSI: 2018.07.21 || NAMA USER : '&UPPER(CLIP(vg_user))&' --> Server : '&clip(loc:owner)&' --> Database : '&clip(loc:ownerdb)
+      ?appframe{prop:text}='APOTIK VERSI: 2019.09.16 || NAMA USER : '&UPPER(CLIP(vg_user))&' --> Server : '&clip(loc:owner)&' --> Database : '&clip(loc:ownerdb)
       if clip(glo:bagian)<>'SIM'  then
           hide(?HelpStokOpnameBaru)
       end
