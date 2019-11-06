@@ -114,7 +114,7 @@ window               WINDOW,AT(,,204,94),FONT('MS Sans Serif',8,COLOR:Black,FONT
                        PANEL,AT(8,6,191,83),BEVEL(-2,1)
                        STRING('Instalasi Farmasi'),AT(43,18,126,19),USE(?String2),CENTER,FONT('Arial',12,,FONT:bold+FONT:italic)
                        PANEL,AT(12,41,182,8),BEVEL(-1,1,09H)
-                       STRING('Update : 16 September 2019'),AT(14,63,182,10),USE(?String1:2),CENTER,FONT('Arial',11,,FONT:bold+FONT:italic)
+                       STRING('Update : 6 November 2019'),AT(14,63,182,10),USE(?String1:2),CENTER,FONT('Arial',11,,FONT:bold+FONT:italic)
                      END
 
 ThisWindow           CLASS(WindowManager)
